@@ -3,9 +3,12 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("lamina")
+project ("lamina" LANGUAGES CXX)
 
 # Add source to this project's executable.
-add_executable (lamina "lamina.cpp" "lamina.h")
+
+add_subdirectory("lamina_source")
+add_subdirectory("tests")
+
 
 # TODO: Add tests and install targets if needed.
