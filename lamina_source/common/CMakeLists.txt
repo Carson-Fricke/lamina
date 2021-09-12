@@ -2,6 +2,8 @@
 set(lamina_common_sources_list
 	"common.cpp"	
 	"common.h"
+	"exception.cpp"
+	"exception.h"
 	"RefArray.h"
 )
 

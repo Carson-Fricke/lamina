@@ -5,7 +5,10 @@
 #ifndef __LAMINA_COMMON_H__
 #define __LAMINA_COMMON_H__
 
+#include <string>
 #include "RefArray.h"
+#include "exception.h"
+
 
 namespace lamina 
 {
@@ -14,7 +17,10 @@ namespace lamina
 
 	typedef RefArray<uint64_t> UIntRefArray;
 
+	typedef std::string string_t;
 
+	template<typename T>
+	using vector_t = std::vector<T>;
 
 }
 
