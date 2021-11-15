@@ -19,23 +19,40 @@ namespace lamina
 			
 			void* _raw_data;
 
-			size_t _size;
+			size_t _numel;
 
-			Device* _device;
+			Device& _device;
 
 			TypeInfo _type;
 
 		public:
-			
-			DynamicStorage();
 
-			DynamicStorage(TypeInfo type_info);
+			DynamicStorage(size_t numel, TypeInfo type_info, Device& device);
 
-			DynamicStorage(size_t size, TypeInfo type_info);
+			size_t numel();
 
-			void bind_type(TypeInfo type_info);
+			size_t item_size();
 
-			void allocate(size_t size);
+			TypeInfo type();
+
+			// only returns the data if it matches the TypeInfo
+			template<typename T>
+			T* data() 
+			{
+				
+				if (_type != get_typeinfo<T>()) 
+				{
+					lamina_throw("Type T does not match the TypeInfo stored in _type");
+				}
+
+				return static_cast<T*>(_raw_data);
+			}
+
+			template<typename T>
+			T* unsafe_data() 
+			{
+				return static_cast<T*>(_raw_data);
+			}
 
 	};
 

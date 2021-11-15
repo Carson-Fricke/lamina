@@ -4,7 +4,8 @@
 
 #include <iostream>
 #include "common/common.h"
-#include "tensor/dynamic_storage/TypeInfo.h"
+#include "tensor/dynamic_storage/DynamicStorage.h"
+#include "tensor/dynamic_storage/CPUDefaultDevice.h"
 
 using namespace std;
 
@@ -12,14 +13,13 @@ using namespace lamina;
 
 int main()
 {
-	
-	TypeInfo typex = _make_type_info_<int>("test int");
-
-	
 
 	UIntRefArray x({1, 2, 3, 4});
 
-	cout << typex.type_size() << endl;
+	DynamicStorage storage(10, int32_typeinfo, cpu_default_device);
+
+
+	cout << int32_typeinfo.name() << endl;
 
 	cout << x << " hello" << endl;
 

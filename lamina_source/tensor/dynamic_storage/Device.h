@@ -5,16 +5,19 @@
 #ifndef __LAMINA_TENSOR_DEVICE_H__
 #define __LAMINA_TENSOR_DEVICE_H__
 
+#include "TypeInfo.h"
+
 
 namespace lamina
 {
 
 	class Device
 	{
+		public:
 
-		virtual void* allocate(size_t bytes) = 0;
+			virtual void* allocate(size_t bytes) = 0;
 
-		virtual void deallocate(void* target, size_t bytes) = 0;
+			virtual void free(void* target) = 0;
 
 	};
 

@@ -1,5 +1,7 @@
 # add sources
 set(lamina_tensor_dynamic_storage_sources_list
+	"CPUDefaultDevice.cpp"
+	"CPUDefaultDevice.h"
 	"Device.cpp"	
 	"Device.h"
 	"DynamicStorage.cpp"
