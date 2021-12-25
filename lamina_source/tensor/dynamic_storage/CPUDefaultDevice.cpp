@@ -6,7 +6,12 @@
 
 void* lamina::CPUDefaultDevice::allocate(size_t bytes)
 {
-	return std::malloc(bytes);
+
+	//_raw_memory.push_back(std::pair<void*, size_t>(malloc(bytes), bytes));
+	
+	//return _raw_memory[_raw_memory.size()-1].first;
+
+	return malloc(bytes);
 }
 
 void lamina::CPUDefaultDevice::free(void* target)

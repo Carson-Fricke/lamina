@@ -17,6 +17,8 @@ namespace lamina
 		
 		private:
 			
+			friend class TensorImpl;
+
 			void* _raw_data;
 
 			size_t _numel;
@@ -24,6 +26,8 @@ namespace lamina
 			Device& _device;
 
 			TypeInfo _type;
+
+			size_t _reference_count;
 
 		public:
 
@@ -33,13 +37,15 @@ namespace lamina
 
 			size_t item_size();
 
+			Device& device();
+
 			TypeInfo type();
+
 
 			// only returns the data if it matches the TypeInfo
 			template<typename T>
 			T* data() 
 			{
-				
 				if (_type != get_typeinfo<T>()) 
 				{
 					lamina_throw("Type T does not match the TypeInfo stored in _type");
@@ -53,6 +59,8 @@ namespace lamina
 			{
 				return static_cast<T*>(_raw_data);
 			}
+
+			~DynamicStorage();
 
 	};
 

@@ -13,6 +13,11 @@ namespace lamina
 
 	class Device
 	{
+		
+		protected:
+
+			//vector_t<std::pair<void*, size_t>> _raw_memory;
+		
 		public:
 
 			virtual void* allocate(size_t bytes) = 0;

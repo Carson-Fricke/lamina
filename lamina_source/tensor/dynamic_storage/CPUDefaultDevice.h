@@ -6,7 +6,7 @@
 #define __LAMINA_TENSOR_CPUDEFAULTDEVICE_H__
 
 #include "Device.h"
-
+#include <utility>
 
 namespace lamina 
 {

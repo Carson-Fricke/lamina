@@ -192,8 +192,6 @@ namespace lamina
 		{
 			typed[index].~T();
 		}
-		delete typed;
-		typed = nullptr;
 	}
 
 	template<typename T>
@@ -281,7 +279,7 @@ namespace lamina
 	
 		using New = TypeInfoData::New;
 		using PlacementNew = TypeInfoData::PlacementNew;
-		using Copy = void(const void*, void*, size_t);
+		using Copy = TypeInfoData::Copy;
 		using Delete = void(void*);
 		using PlacementDelete = void(void*, size_t);
 

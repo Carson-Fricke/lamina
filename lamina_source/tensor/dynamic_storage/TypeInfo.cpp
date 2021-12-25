@@ -51,5 +51,4 @@ namespace lamina
 		return _data->_placement_delete;
 	}
 
-
 }
