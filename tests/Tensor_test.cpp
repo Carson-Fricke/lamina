@@ -15,7 +15,7 @@ using namespace lamina;
 int main()
 {
 
-
+	// new host test change
 	TensorImpl tens({7, 8, 9}, float64_typeinfo);
 
 	cout << tens.numel() << " tensor numel" << endl;
