@@ -1,3 +1,5 @@
+#include "TypeInfo.h"
+#include "TypeInfo.h"
 // 
 // created 7/18/21 9:46pm pacific by Carson Fricke 
 //
@@ -9,7 +11,16 @@ namespace lamina
     
 	TypeInfo::TypeInfo(TypeInfoData* data) :
 		_data(data)
-	{}
+	{
+		_data->_type_cast->_type = this;
+	}
+
+	TypeCast TypeInfo::cast(void* target)
+	{
+		_data->_type_cast->_data = target;
+
+		return *_data->_type_cast;
+	}
 
 	size_t TypeInfo::size()
 	{
@@ -50,5 +61,6 @@ namespace lamina
 	{
 		return _data->_placement_delete;
 	}
+
 
 }

@@ -16,7 +16,7 @@ int main()
 {
 
 	// new host test change
-	TensorImpl tens({7, 8, 9}, float64_typeinfo);
+	TensorImpl tens({7, 8, 9}, int64_typeinfo);
 
 	cout << tens.numel() << " tensor numel" << endl;
 
@@ -28,9 +28,11 @@ int main()
 
 	cout << tens.stride(0) << " " << tens.stride(1) << " tensor strides" << endl;
 
-	double* x = tens.data<double>();
+	int64_t* x = tens.data();
 
-	TensorImpl tens2 = tens.select(6);
+	cout << x[0];
+
+	//TensorImpl tens2 = tens.select(6);
 
 	return 0;
 

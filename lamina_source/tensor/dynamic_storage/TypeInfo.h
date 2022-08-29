@@ -11,6 +11,9 @@
 namespace lamina
 {
 
+
+	struct TypeCast;
+
 	struct TypeInfoData
 	{
 
@@ -33,6 +36,8 @@ namespace lamina
 			Delete* _delete;
 			PlacementDelete* _placement_delete;
 
+			TypeCast* _type_cast;
+
 			TypeInfoData
 			(
 				size_t type_size,
@@ -42,7 +47,8 @@ namespace lamina
 				PlacementNew* placement_new_function,
 				Copy* copy_function,
 				Delete* delete_function,
-				PlacementDelete* placement_delete_function
+				PlacementDelete* placement_delete_function,
+				TypeCast* type_cast
 			) :
 				_type_item_size(type_size),
 				_type_name(type_name),
@@ -51,7 +57,8 @@ namespace lamina
 				_placement_new(placement_new_function), 
 				_copy(copy_function),
 				_delete(delete_function),
-				_placement_delete(placement_delete_function)
+				_placement_delete(placement_delete_function),
+				_type_cast(type_cast)
 			{}
 
 
@@ -207,11 +214,18 @@ namespace lamina
 		}
 	}
 
+	template<typename T>
+	inline constexpr TypeCast* _choose_type_cast_() 
+	{
+		return new TypeCast();
+	}
+
 
 	// creates a TypeInfo
 	template<typename T>
 	inline TypeInfoData _construct_type_info_(string_t type_name, size_t id)
 	{		
+		
 		return TypeInfoData
 		(
 			sizeof(T),
@@ -221,8 +235,10 @@ namespace lamina
 			_choose_placement_new_<T>(),
 			_choose_copy_<T>(),
 			_choose_delete_<T>(),
-			_choose_placement_delete_<T>()
+			_choose_placement_delete_<T>(),
+			_choose_type_cast_<T>()
 		);
+		
 	}
 
 
@@ -293,6 +309,8 @@ namespace lamina
 			
 			TypeInfo(TypeInfoData* data);
 
+			TypeCast cast(void* target);
+
 			size_t size();
 
 			string_t name() const;
@@ -334,7 +352,59 @@ namespace lamina
 	}
 
 
-	// change back to static
+	struct TypeCast
+	{
+
+		void* _data;
+
+		TypeInfo* _type;
+
+
+
+		public:
+
+			TypeCast() :
+				_data(nullptr),
+				_type(nullptr)
+			{
+			}
+
+			template<typename T>
+			static T& deref(T& target) 
+			{
+				return target;
+			}
+
+			template<typename T>
+			static T& deref(T*& target)
+			{
+				return *target;
+			}
+
+			template<typename>
+			struct dereference;
+
+			template<typename T>
+			struct dereference<T*> 
+			{
+				typedef typename T type;
+			};
+
+
+			template<typename T>
+			operator T()
+			{
+
+				if (get_typeinfo<typename dereference<T>::type>() != *_type) 
+				{
+					lamina_throw("Here we be");
+				}
+
+				
+				return static_cast<T>(_data);
+			}
+	};
+
 	static TypeInfo float32_typeinfo = make_typeinfo<float_t>("float32 type", 1);
 	static TypeInfo int32_typeinfo = make_typeinfo<int32_t>("int32 type", 2);
 

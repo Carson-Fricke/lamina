@@ -67,10 +67,9 @@ namespace lamina
 
 			int64_t stride(size_t i);
 
-			template<typename T>
-			T* data() 
+			TypeCast data() 
 			{
-				return _data->data<T>();
+				return _data->data();
 			}
 
 			~TensorImpl();

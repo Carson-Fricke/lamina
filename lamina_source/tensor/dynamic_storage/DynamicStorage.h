@@ -43,15 +43,9 @@ namespace lamina
 
 
 			// only returns the data if it matches the TypeInfo
-			template<typename T>
-			T* data() 
+			TypeCast data() 
 			{
-				if (_type != get_typeinfo<T>()) 
-				{
-					lamina_throw("Type T does not match the TypeInfo stored in _type");
-				}
-
-				return static_cast<T*>(_raw_data);
+				return _type.cast(_raw_data);
 			}
 
 			template<typename T>
