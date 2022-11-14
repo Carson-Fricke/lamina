@@ -16,7 +16,6 @@ namespace lamina
 		
 		protected:
 
-			//vector_t<std::pair<void*, size_t>> _raw_memory;
 		
 		public:
 

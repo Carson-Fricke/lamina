@@ -12,7 +12,7 @@ namespace lamina
 	TypeInfo::TypeInfo(TypeInfoData* data) :
 		_data(data)
 	{
-		_data->_type_cast->_type = this;
+		_data->_type_cast->_type = _data;
 	}
 
 	TypeCast TypeInfo::cast(void* target)
@@ -62,5 +62,16 @@ namespace lamina
 		return _data->_placement_delete;
 	}
 
+
+	TypeInfo float32_typeinfo = make_typeinfo<float_t>("float32 type", 1);
+	TypeInfo int32_typeinfo = make_typeinfo<int32_t>("int32 type", 2);
+
+	TypeInfo float64_typeinfo = make_typeinfo<double_t>("float64 type", 3);
+	TypeInfo int64_typeinfo = make_typeinfo<int64_t>("int64 type", 4);
+
+	TypeInfo uint32_typeinfo = make_typeinfo<uint32_t>("uint32 type", 5);
+	TypeInfo uint64_typeinfo = make_typeinfo<uint64_t>("uint64 type", 6);
+
+	TypeInfo string_typeinfo = make_typeinfo<string_t>("string type", 7);
 
 }

@@ -54,7 +54,7 @@ namespace lamina
 				_type_name(type_name),
 				_id(id),
 				_new(new_function),
-				_placement_new(placement_new_function), 
+				_placement_new(placement_new_function),
 				_copy(copy_function),
 				_delete(delete_function),
 				_placement_delete(placement_delete_function),
@@ -110,7 +110,7 @@ namespace lamina
 	template<typename T>
 	inline void _placement_new_unsupported_(void* target, size_t size) 
 	{
-		lamina_throw("Type T is not default constructable, placement new is unsupported")
+		lamina_throw("Type T is not default constructable, placement new is unsupported");
 	}
 
 	// determines whether placement new works for T
@@ -339,14 +339,16 @@ namespace lamina
 		return !operator==(arg0, arg1);
 	}
 
+	
+
 	template<typename T>
-	TypeInfo get_typeinfo()
+	static TypeInfo get_typeinfo()
 	{
 		return TypeInfo(TypeRegister<T>::get());
 	}
 
 	template<typename T>
-	TypeInfo make_typeinfo(string_t name, size_t id)
+	static TypeInfo make_typeinfo(string_t name, size_t id)
 	{
 		return TypeInfo(TypeRegister<T>::register_type(name, id));
 	}
@@ -357,7 +359,7 @@ namespace lamina
 
 		void* _data;
 
-		TypeInfo* _type;
+		TypeInfoData* _type;
 
 
 
@@ -381,23 +383,22 @@ namespace lamina
 				return *target;
 			}
 
-			template<typename>
-			struct dereference;
-
-			template<typename T>
-			struct dereference<T*> 
-			{
-				typedef typename T type;
-			};
+			template<typename T> struct remove_pointer { typedef T type; };
+			template<typename T> struct remove_pointer<T*> { typedef T type; };
+			template<typename T> struct remove_pointer<T* const> { typedef T type; };
+			template<typename T> struct remove_pointer<T* volatile> { typedef T type; };
+			template<typename T> struct remove_pointer<T* const volatile> { typedef T type; };
 
 
 			template<typename T>
 			operator T()
 			{
 
-				if (get_typeinfo<typename dereference<T>::type>() != *_type) 
+				using raw_type = remove_pointer<T>::type;
+
+				if (TypeRegister<raw_type>::get() != _type)
 				{
-					lamina_throw("Here we be");
+					lamina_throw("Type " + _type->_type_name + " cannot be interpreted as " + get_typeinfo<raw_type>().name());
 				}
 
 				
@@ -405,14 +406,16 @@ namespace lamina
 			}
 	};
 
-	static TypeInfo float32_typeinfo = make_typeinfo<float_t>("float32 type", 1);
-	static TypeInfo int32_typeinfo = make_typeinfo<int32_t>("int32 type", 2);
+	extern TypeInfo float32_typeinfo;
+	extern TypeInfo int32_typeinfo;
 
-	static TypeInfo float64_typeinfo = make_typeinfo<double_t>("float64 type", 3);
-	static TypeInfo int64_typeinfo = make_typeinfo<int64_t>("int64 type", 4);
+	extern TypeInfo float64_typeinfo;
+	extern TypeInfo int64_typeinfo;
 
-	static TypeInfo uint32_typeinfo = make_typeinfo<uint32_t>("uint32 type", 5);
-	static TypeInfo uint64_typeinfo = make_typeinfo<uint64_t>("uint64 type", 6);
+	extern TypeInfo uint32_typeinfo;
+	extern TypeInfo uint64_typeinfo;
+
+	extern TypeInfo string_typeinfo;
 	
 
 } // namespace lamina

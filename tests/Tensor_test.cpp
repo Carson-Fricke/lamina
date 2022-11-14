@@ -12,6 +12,8 @@ using namespace std;
 
 using namespace lamina;
 
+
+
 int main()
 {
 
@@ -28,9 +30,17 @@ int main()
 
 	cout << tens.stride(0) << " " << tens.stride(1) << " tensor strides" << endl;
 
-	int64_t* x = tens.data();
+	int64_t* data = tens.data();
+
+	data[0] = 32;
+
+	float* x = tens.data(); // should throw error
 
 	cout << x[0];
+
+
+	
+
 
 	//TensorImpl tens2 = tens.select(6);
 
